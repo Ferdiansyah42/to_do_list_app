@@ -27,7 +27,8 @@ class TodoHomePage extends StatefulWidget {
 
 class _TodoHomePageState extends State<TodoHomePage> {
   final List<String> _todos = []; // daftar tugas
-  final TextEditingController _controller = TextEditingController(); // input teks
+  final TextEditingController _controller =
+      TextEditingController(); // input teks
 
   void _addTodo() {
     final text = _controller.text;
@@ -38,6 +39,61 @@ class _TodoHomePageState extends State<TodoHomePage> {
       });
     }
   }
-  
 
+  void _removeTodo(int index) {
+    setState(() {
+      _todos.removeAt(index);
+    });
+  }
+
+   @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Daftar Tugas'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: _controller,
+                    decoration: const InputDecoration(
+                      labelText: 'Tambahkan Tugas',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                ElevatedButton(
+                  onPressed: _addTodo,
+                  child: const Text('Tambah'),
+                )
+              ],
+            ),
+            const SizedBox(height: 16),
+            Expanded(
+              child: ListView.builder(
+                itemCount: _todos.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                    child: ListTile(
+                      title: Text(_todos[index]),
+                      trailing: IconButton(
+                        icon: const Icon(Icons.delete),
+                        onPressed: () => _removeTodo(index),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
 }
