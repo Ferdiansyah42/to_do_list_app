@@ -26,16 +26,18 @@ class TodoHomePage extends StatefulWidget {
 }
 
 class _TodoHomePageState extends State<TodoHomePage> {
-  final List<String> _todo = []; //daftar tugas
-  final TextEditingController _controller = TextEditingController();
+  final List<String> _todos = []; // daftar tugas
+  final TextEditingController _controller = TextEditingController(); // input teks
 
   void _addTodo() {
-    final Text = _controller.text;
-    if (Text.isNotEmpty) {
+    final text = _controller.text;
+    if (text.isNotEmpty) {
       setState(() {
-        _todo.add(Text);
+        _todos.add(text);
         _controller.clear();
       });
     }
   }
+  
+
 }
