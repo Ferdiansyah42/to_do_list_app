@@ -17,3 +17,25 @@ class TodoListApp extends StatelessWidget {
     );
   }
 }
+
+class TodoHomePage extends StatefulWidget {
+  const TodoHomePage({super.key});
+
+  @override
+  _TodoHomePageState createState() => _TodoHomePageState();
+}
+
+class _TodoHomePageState extends State<TodoHomePage> {
+  final List<String> _todo = []; //daftar tugas
+  final TextEditingController _controller = TextEditingController();
+
+  void _addTodo() {
+    final Text = _controller.text;
+    if (Text.isNotEmpty) {
+      setState(() {
+        _todo.add(Text);
+        _controller.clear();
+      });
+    }
+  }
+}
