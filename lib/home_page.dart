@@ -21,4 +21,10 @@ class _HomePageState extends State<HomePage> {
       });
     }
   }
+
+  void _removeTodo(int index) {
+    setState(() {
+      _todos.removeAt(index);
+    });
+  }
 }
