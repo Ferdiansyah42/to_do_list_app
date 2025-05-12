@@ -31,9 +31,29 @@ class TodoHomePage extends StatefulWidget {
 }
 
 class _TodoHomePageState extends State<TodoHomePage> {
-  final List<String> _todos = []; // daftar tugas
-  final TextEditingController _controller =
-      TextEditingController(); // input teks
+  final List<String> _todos = [];
+  final TextEditingController _controller = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _loadTodos();
+  }
+
+  Future<void> _loadTodos() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String? todosString = prefs.getString('todos');
+    if (todosString != null) {
+      setState(() {
+        _todos.addAll(List<String>.from(jsonDecode(todosString)));
+      });
+    }
+  }
+
+  Future<void> _saveTodos() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('todos', jsonEncode(_todos));
+  }
 
   void _addTodo() {
     final text = _controller.text;
@@ -42,6 +62,7 @@ class _TodoHomePageState extends State<TodoHomePage> {
         _todos.add(text);
         _controller.clear();
       });
+      _saveTodos();
     }
   }
 
@@ -49,6 +70,7 @@ class _TodoHomePageState extends State<TodoHomePage> {
     setState(() {
       _todos.removeAt(index);
     });
+    _saveTodos();
   }
 
   @override
