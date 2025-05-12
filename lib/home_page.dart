@@ -8,3 +8,17 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
+class _HomePageState extends State<HomePage> {
+  final List<String> _todos = [];
+  final TextEditingController _controller = TextEditingController();
+
+  void _addTodo() {
+    final text = _controller.text.trim();
+    if (text.isNotEmpty) {
+      setState(() {
+        _todos.insert(0, text);
+        _controller.clear();
+      });
+    }
+  }
+}
