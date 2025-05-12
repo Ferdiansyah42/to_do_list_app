@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'theme.dart';
 import 'home_page.dart';
 import 'about_page.dart';
+import 'add_task_page.dart';
+import 'task_model.dart';
 
 void main() {
   runApp(const TodoListApp());
