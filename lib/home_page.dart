@@ -33,11 +33,12 @@ class _HomePageState extends State<HomePage> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
+      backgroundColor: isDark ? Colors.grey[900] : Colors.grey[200],
       appBar: AppBar(
         title: const Text('Todo List'),
         actions: [
           IconButton(
-            icon: const Icon(Icons.brightness_6),
+            icon: Icon(isDark ? Icons.wb_sunny : Icons.brightness_2),
             onPressed: widget.onToggleTheme,
           ),
           IconButton(
