@@ -38,4 +38,32 @@ class _AddTaskPageState extends State<AddTaskPage> {
       });
     }
   }
+
+  @override
+  Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    return Scaffold(
+      backgroundColor: isDark ? Colors.black : Colors.white,
+      appBar: AppBar(
+        title: const Text('Buat Tugas'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: ListView(
+          children: [
+            TextField(
+              controller: titleController,
+              decoration: const InputDecoration(labelText: 'Judul Tugas'),
+            ),
+            const SizedBox(height: 10),
+            TextField(
+              controller: noteController,
+              decoration: const InputDecoration(labelText: 'Catatan'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
