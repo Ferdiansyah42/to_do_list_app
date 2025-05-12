@@ -1,127 +1,41 @@
 import 'package:flutter/material.dart';
+import 'theme.dart';
 import 'home_page.dart';
 import 'about_page.dart';
-import 'theme.dart';
 
 void main() {
-  runApp(const TodoListApp());
+  runApp(const TodoApp());
 }
 
-class TodoListApp extends StatelessWidget {
-  const TodoListApp({super.key});
+class TodoApp extends StatefulWidget {
+  const TodoApp({super.key});
+
+  @override
+  State<TodoApp> createState() => _TodoAppState();
+}
+
+class _TodoAppState extends State<TodoApp> {
+  ThemeMode _themeMode = ThemeMode.light;
+
+  void _toggleTheme() {
+    setState(() {
+      _themeMode =
+          _themeMode == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'Todo App',
       debugShowCheckedModeBanner: false,
-      title: 'Todo List',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal),
-        useMaterial3: true,
-      ),
-      home: const TodoHomePage(),
-    );
-  }
-}
-
-class TodoHomePage extends StatefulWidget {
-  const TodoHomePage({super.key});
-
-  @override
-  _TodoHomePageState createState() => _TodoHomePageState();
-}
-
-class _TodoHomePageState extends State<TodoHomePage> {
-  final List<String> _todos = [];
-  final TextEditingController _controller = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-    _loadTodos();
-  }
-
-  Future<void> _loadTodos() async {
-    final prefs = await SharedPreferences.getInstance();
-    final String? todosString = prefs.getString('todos');
-    if (todosString != null) {
-      setState(() {
-        _todos.addAll(List<String>.from(jsonDecode(todosString)));
-      });
-    }
-  }
-
-  Future<void> _saveTodos() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('todos', jsonEncode(_todos));
-  }
-
-  void _addTodo() {
-    final text = _controller.text;
-    if (text.isNotEmpty) {
-      setState(() {
-        _todos.add(text);
-        _controller.clear();
-      });
-      _saveTodos();
-    }
-  }
-
-  void _removeTodo(int index) {
-    setState(() {
-      _todos.removeAt(index);
-    });
-    _saveTodos();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Daftar Tugas'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: _controller,
-                    decoration: const InputDecoration(
-                      labelText: 'Tambahkan Tugas',
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 8),
-                ElevatedButton(
-                  onPressed: _addTodo,
-                  child: const Text('Tambah'),
-                )
-              ],
-            ),
-            const SizedBox(height: 16),
-            Expanded(
-              child: ListView.builder(
-                itemCount: _todos.length,
-                itemBuilder: (context, index) {
-                  return Card(
-                    child: ListTile(
-                      title: Text(_todos[index]),
-                      trailing: IconButton(
-                        icon: const Icon(Icons.delete),
-                        onPressed: () => _removeTodo(index),
-                      ),
-                    ),
-                  );
-                },
-              ),
-            )
-          ],
-        ),
-      ),
+      theme: lightTheme,
+      darkTheme: darkTheme,
+      themeMode: _themeMode,
+      home: HomePage(onToggleTheme: _toggleTheme),
+      routes: {
+        '/about': (context) => const AboutPage(),
+      },
     );
   }
 }
