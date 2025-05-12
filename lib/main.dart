@@ -26,6 +26,18 @@ class _TodoListAppState extends State<TodoListApp> {
     });
   }
 
+  void _addTask(Task task) {
+    setState(() {
+      _tasks.insert(0, task);
+    });
+  }
+
+  void _deleteTask(int index) {
+    setState(() {
+      _tasks.removeAt(index);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
