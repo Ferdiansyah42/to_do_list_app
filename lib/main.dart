@@ -38,6 +38,17 @@ class _TodoListAppState extends State<TodoListApp> {
     });
   }
 
+  Future<void> _navigateToAddTask(BuildContext context) async {
+    final result = await Navigator.push<Task>(
+      context,
+      MaterialPageRoute(builder: (_) => const AddTaskPage()),
+    );
+
+    if (result != null) {
+      _addTask(result);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
