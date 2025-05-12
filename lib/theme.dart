@@ -4,14 +4,20 @@ const defaultFont = 'Poppins';
 
 final ThemeData lightTheme = ThemeData(
   brightness: Brightness.light,
-  colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal),
+  colorScheme: ColorScheme.fromSeed(
+    seedColor: Colors.teal,
+    brightness: Brightness.light, 
+  ),
   useMaterial3: true,
   fontFamily: defaultFont,
 );
 
 final ThemeData darkTheme = ThemeData(
   brightness: Brightness.dark,
-  colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+  colorScheme: ColorScheme.fromSeed(
+    seedColor: Colors.deepPurple,
+    brightness: Brightness.dark, 
+  ),
   useMaterial3: true,
   fontFamily: defaultFont,
 );
