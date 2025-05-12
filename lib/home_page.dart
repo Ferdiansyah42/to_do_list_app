@@ -16,15 +16,15 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    _loadTodos(); // Load saved todos when the screen loads
+    _loadTodos();
   }
 
   Future<void> _loadTodos() async {
     final prefs = await SharedPreferences.getInstance();
-    final savedTodos = prefs.getStringList('todos') ?? [];
+    final saved = prefs.getStringList('todos') ?? [];
     setState(() {
       _todos.clear();
-      _todos.addAll(savedTodos);
+      _todos.addAll(saved);
     });
   }
 
@@ -55,7 +55,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Todo List'),
+        title: const Text('Daftar Tugas'),
         actions: [
           IconButton(
             icon: const Icon(Icons.brightness_6),
@@ -70,23 +70,36 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            TextField(
-              controller: _controller,
-              decoration: InputDecoration(
-                hintText: 'Tambah tugas baru...',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
+            Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: _controller,
+                    decoration: InputDecoration(
+                      labelText: 'Tambahkan Tugas',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    onSubmitted: (_) => _addTodo(),
+                  ),
                 ),
-                suffixIcon: IconButton(
-                  icon: const Icon(Icons.add),
+                const SizedBox(width: 10),
+                ElevatedButton(
                   onPressed: _addTodo,
-                  tooltip: 'Tambah Tugas',
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 18),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  child: const Text('Tambah'),
                 ),
-              ),
-              onSubmitted: (_) => _addTodo(),
+              ],
             ),
             const SizedBox(height: 20),
             Expanded(
@@ -95,23 +108,16 @@ class _HomePageState extends State<HomePage> {
                   : ListView.builder(
                       itemCount: _todos.length,
                       itemBuilder: (context, index) {
-                        return Dismissible(
-                          key: Key(_todos[index]),
-                          direction: DismissDirection.endToStart,
-                          onDismissed: (_) => _removeTodo(index),
-                          background: Container(
-                            alignment: Alignment.centerRight,
-                            padding: const EdgeInsets.only(right: 20),
-                            color: Colors.red,
-                            child: const Icon(Icons.delete, color: Colors.white),
+                        return Card(
+                          margin: const EdgeInsets.symmetric(vertical: 8),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
                           ),
-                          child: Card(
-                            elevation: 3,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: ListTile(
-                              title: Text(_todos[index]),
+                          child: ListTile(
+                            title: Text(_todos[index]),
+                            trailing: IconButton(
+                              icon: const Icon(Icons.delete),
+                              onPressed: () => _removeTodo(index),
                             ),
                           ),
                         );
