@@ -27,4 +27,25 @@ class _HomePageState extends State<HomePage> {
       _todos.removeAt(index);
     });
   }
+
+  @override
+  Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Todo List'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.brightness_6),
+            onPressed: widget.onToggleTheme,
+          ),
+          IconButton(
+            icon: const Icon(Icons.info_outline),
+            onPressed: () => Navigator.pushNamed(context, '/about'),
+          ),
+        ],
+      ),
+    );
+  }
 }
