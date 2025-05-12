@@ -16,13 +16,13 @@ class TodoListApp extends StatefulWidget {
   State<TodoListApp> createState() => _TodoListAppState();
 }
 
-class _TodoAppState extends State<TodoListApp> {
+class _TodoListAppState extends State<TodoListApp> {
   ThemeMode _themeMode = ThemeMode.light;
+  final List<Task> _tasks = [];
 
   void _toggleTheme() {
     setState(() {
-      _themeMode =
-          _themeMode == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
+      _themeMode = _themeMode == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
     });
   }
 
