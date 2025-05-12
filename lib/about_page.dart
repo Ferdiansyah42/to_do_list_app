@@ -12,10 +12,10 @@ class AboutPage extends StatelessWidget {
           padding: EdgeInsets.all(24.0),
           child: Text(
             'Buat catat tugas biar gak lupa? Ini dia solusinya!\n\n'
+            '✨ Catat tugas dengan mudah\n'
+            '🌗 Tema gelap & terang\n'
+            '🗑️ Bisa hapus tugas\n\n'
             '🔥 Fitur keren:\n'
-            '- Pindah halaman semudah swipe\n'
-            '- Tema gelap buat kerja malam\n'
-            '- Font kece\n'
             '- Tampilan modern',
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 16),
