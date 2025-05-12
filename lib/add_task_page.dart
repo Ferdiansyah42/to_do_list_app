@@ -61,6 +61,27 @@ class _AddTaskPageState extends State<AddTaskPage> {
               controller: noteController,
               decoration: const InputDecoration(labelText: 'Catatan'),
             ),
+            const SizedBox(height: 20),
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    selectedDate == null
+                        ? 'Belum pilih tanggal'
+                        : 'Tanggal: ${selectedDate!.toLocal()}',
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: _pickDate,
+                  child: const Text('Pilih Tanggal'),
+                ),
+              ],
+            ),
+            const SizedBox(height: 30),
+            ElevatedButton(
+              onPressed: _submit,
+              child: const Text('Buat'),
+            ),
           ],
         ),
       ),
