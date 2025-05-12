@@ -4,17 +4,17 @@ import 'home_page.dart';
 import 'about_page.dart';
 
 void main() {
-  runApp(const TodoApp());
+  runApp(const TodoListApp());
 }
 
-class TodoApp extends StatefulWidget {
-  const TodoApp({super.key});
+class TodoListApp extends StatefulWidget {
+  const TodoListApp({super.key});
 
   @override
-  State<TodoApp> createState() => _TodoAppState();
+  State<TodoListApp> createState() => _TodoAppState();
 }
 
-class _TodoAppState extends State<TodoApp> {
+class _TodoAppState extends State<TodoListApp> {
   ThemeMode _themeMode = ThemeMode.light;
 
   void _toggleTheme() {
@@ -27,7 +27,7 @@ class _TodoAppState extends State<TodoApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Todo App',
+      title: 'Todo list App',
       debugShowCheckedModeBanner: false,
       theme: lightTheme,
       darkTheme: darkTheme,
