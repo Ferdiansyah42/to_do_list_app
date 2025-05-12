@@ -46,6 +46,56 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          children: [
+            TextField(
+              controller: _controller,
+              decoration: InputDecoration(
+                hintText: 'Tambah tugas baru...',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                suffixIcon: IconButton(
+                  icon: const Icon(Icons.add),
+                  onPressed: _addTodo,
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
+            Expanded(
+              child: _todos.isEmpty
+                  ? const Center(child: Text('Belum ada tugas.'))
+                  : ListView.builder(
+                      itemCount: _todos.length,
+                      itemBuilder: (context, index) {
+                        return Dismissible(
+                          key: Key(_todos[index]),
+                          direction: DismissDirection.endToStart,
+                          onDismissed: (_) => _removeTodo(index),
+                          background: Container(
+                            alignment: Alignment.centerRight,
+                            padding: const EdgeInsets.only(right: 20),
+                            color: Colors.red,
+                            child: const Icon(Icons.delete, color: Colors.white),
+                          ),
+                          child: Card(
+                            elevation: 3,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: ListTile(
+                              title: Text(_todos[index]),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
