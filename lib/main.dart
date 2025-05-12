@@ -52,13 +52,18 @@ class _TodoListAppState extends State<TodoListApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Todo list App',
+      title: 'Todo List App',
       debugShowCheckedModeBanner: false,
       theme: lightTheme,
       darkTheme: darkTheme,
       themeMode: _themeMode,
-      home: HomePage(onToggleTheme: _toggleTheme),
       routes: {
+        '/': (context) => HomePage(
+              onToggleTheme: _toggleTheme,
+              tasks: _tasks,
+              onAddTask: () => _navigateToAddTask(context),
+              onDeleteTask: _deleteTask,
+            ),
         '/about': (context) => const AboutPage(),
       },
     );
