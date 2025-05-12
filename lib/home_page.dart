@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   final VoidCallback onToggleTheme;
@@ -12,6 +13,26 @@ class _HomePageState extends State<HomePage> {
   final List<String> _todos = [];
   final TextEditingController _controller = TextEditingController();
 
+  @override
+  void initState() {
+    super.initState();
+    _loadTodos(); // Load saved todos when the screen loads
+  }
+
+  Future<void> _loadTodos() async {
+    final prefs = await SharedPreferences.getInstance();
+    final savedTodos = prefs.getStringList('todos') ?? [];
+    setState(() {
+      _todos.clear();
+      _todos.addAll(savedTodos);
+    });
+  }
+
+  Future<void> _saveTodos() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setStringList('todos', _todos);
+  }
+
   void _addTodo() {
     final text = _controller.text.trim();
     if (text.isNotEmpty) {
@@ -19,6 +40,7 @@ class _HomePageState extends State<HomePage> {
         _todos.insert(0, text);
         _controller.clear();
       });
+      _saveTodos();
     }
   }
 
@@ -26,24 +48,24 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       _todos.removeAt(index);
     });
+    _saveTodos();
   }
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
     return Scaffold(
-      backgroundColor: isDark ? Colors.grey[900] : Colors.grey[200],
       appBar: AppBar(
         title: const Text('Todo List'),
         actions: [
           IconButton(
-            icon: Icon(isDark ? Icons.wb_sunny : Icons.brightness_2),
+            icon: const Icon(Icons.brightness_6),
             onPressed: widget.onToggleTheme,
+            tooltip: 'Ganti Tema',
           ),
           IconButton(
             icon: const Icon(Icons.info_outline),
             onPressed: () => Navigator.pushNamed(context, '/about'),
+            tooltip: 'Tentang Aplikasi',
           ),
         ],
       ),
@@ -61,8 +83,10 @@ class _HomePageState extends State<HomePage> {
                 suffixIcon: IconButton(
                   icon: const Icon(Icons.add),
                   onPressed: _addTodo,
+                  tooltip: 'Tambah Tugas',
                 ),
               ),
+              onSubmitted: (_) => _addTodo(),
             ),
             const SizedBox(height: 20),
             Expanded(
