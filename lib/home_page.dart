@@ -21,7 +21,7 @@ class HomePage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Todo List'),
+        title: const Text('Daftar Tugas'),
         actions: [
           IconButton(
             icon: Icon(isDark ? Icons.wb_sunny : Icons.brightness_2),
